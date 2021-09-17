@@ -1,0 +1,22 @@
+[package]
+name = "beacon-chain-indexer"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "3.0.0-beta.4"
+thiserror = "1.0"
+rusty-leveldb = "0.3"
+eth2 = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+beacon_chain = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+
+[patch]
+[patch.crates-io]
+tree_hash = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+tree_hash_derive = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+eth2_ssz = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+eth2_ssz_derive = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+eth2_ssz_types = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+eth2_hashing = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
