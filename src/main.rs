@@ -1,4 +1,4 @@
-use beacon_chain_indexer::{Builder, ChainSource, Indexer};
+use beacon_chain_indexer::{Builder, Indexer};
 use clap::Clap;
 use std::collections::HashMap;
 
@@ -15,6 +15,12 @@ struct Config {
 
     #[clap(subcommand)]
     subcmd: SubCommand,
+
+    #[clap(long, default_value = "36660")]
+    from_epoch: u64,
+
+    #[clap(long)]
+    until_epoch: u64,
 }
 
 #[derive(Clap)]
@@ -26,11 +32,13 @@ enum SubCommand {
 fn main() {
     let config = Config::parse();
 
-    let prater_altair_fork_slot = SLOTS_PER_EPOCH * PRATER_ALTAIR_FORK_EPOCH;
+    let start_slot = config.from_epoch * SLOTS_PER_EPOCH;
+    let end_slot = config.until_epoch * SLOTS_PER_EPOCH;
     let mut indexer = Builder::new()
         .with_index_db(config.index_db_path)
         .from_lighthouse(config.lighthouse_db_path)
-        .with_start_slot(prater_altair_fork_slot)
+        .with_start_slot(start_slot)
+        .until_slot(end_slot)
         .build();
 
     match config.subcmd {
@@ -48,7 +56,7 @@ struct EpochResult {
     attestation_participation: f64,
 }
 
-fn run_prater_sync_committee_analysis<C: ChainSource>(indexer: Indexer<C>) {
+fn run_prater_sync_committee_analysis(indexer: Indexer) {
     let fork_epoch = PRATER_ALTAIR_FORK_EPOCH;
     let head_epoch = 39900;
     let mut epoch_results = HashMap::new();

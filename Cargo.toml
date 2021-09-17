@@ -8,9 +8,10 @@ edition = "2018"
 [dependencies]
 clap = "3.0.0-beta.4"
 thiserror = "1.0"
-rusty-leveldb = "0.3"
 eth2 = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
 beacon_chain = { git = "https://github.com/sigp/lighthouse", branch = "stable" }
+leveldb = "0.8"
+db-key = "0.0.5"
 
 [patch]
 [patch.crates-io]
